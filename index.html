@@ -25,7 +25,7 @@
         Http.onreadystatechange = (e) => {
             let repoArray = new Array();
             repoArray = JSON.parse(Http.responseText);
-            console.log(`${repoArray.length} | ${Http.responseText});
+            console.log(`${repoArray.length} | ${Http.responseText}`);
             for (let i = 0; i < repoArray.length; i++) {
                 var btn = document.createElement("BUTTON"); // Create a <button> element
                 btn.innerHTML = repoArray[i].replace("https://4anime.to/anime/", "").replace("-", " "); // Insert text
