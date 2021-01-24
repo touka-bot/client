@@ -26,15 +26,35 @@
         Http.send();
 
         Http.onreadystatechange = (e) => {
-            const response = Http.responseText;
-
-            const head = document.createElement("h1");
-            for (let i = 0; i < response.length; i++) {
-                head.innerHTML = response[i].responseText;
-                document.body.appendChild(head);
+            let repoArray = new Array();
+            repoArray = JSON.parse(Http.responseText);
+            for (let i = 0; i < repoArray.length; i++) {
+                var btn = document.createElement("BUTTON"); // Create a <button> element
+                btn.innerHTML = repoArray[i].replace("https://4anime.to/anime/", "").replace("-", " "); // Insert text
+                btn.setAttribute("onclick", getEpisodes(show, i));
+                document.body.appendChild(btn); // Append <button> to <body>
             }
         }
         console.log('ended');
+    }
+
+    function getEpisodes(title, index) {
+        const HttpW = new XMLHttpRequest();
+        const url = `http://4c3711.xyz:3000/fluid/api/v1/search/${title}/${index}`;
+        HttpW.open("GET", url);
+        HttpW.send();
+
+        HttpW.onreadystatechange = (e) => {
+            let repoArray = new Array();
+            console.log(HttpW.responseText);
+            repoArray = JSON.parse(HttpW.responseText);
+            for (let i = 0; i < repoArray.length; i++) {
+                var btn = document.createElement("BUTTON"); // Create a <button> element
+                btn.innerHTML = `EP ${i}`; // Insert text
+                btn.setAttribute("onclick", `window.location.href='${repoArray[i]}'`);
+                document.body.appendChild(btn); // Append <button> to <body>
+            }
+        }
     }
 </script>
 
