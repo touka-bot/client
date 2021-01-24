@@ -30,7 +30,7 @@
 
             const head = document.createElement("h1");
             for (let i = 0; i < response.length; i++) {
-                head.innerHTML = response[i];
+                head.innerHTML = response[i].responseText;
                 document.body.appendChild(head);
             }
         }
