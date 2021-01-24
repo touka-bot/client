@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FLUID v2</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <input type="text" class="search-input" id="center" placeholder="Search a Show">
+    <button id="center" class="search-button" onclick="searchTitle('noragami')">Search</button>
+</body>
+
+<script>
+    function searchTitle(title) {
+        console.log('started');
+        var show = document.getElementsByClassName('search-input')[0].value;
+        if (show == "")
+            return alert('Please enter a Show');
+
+        // const url = "https://4anime.to/?s=" + show.toLowerCase().replace(" ", "+");
+
+        const Http = new XMLHttpRequest();
+        const url = 'http://vmd53181.contaboserver.net:3000/fluid/api/v1/search/' + show.toLowerCase().replace(" ", "+");
+        Http.open("GET", url);
+        Http.send();
+
+        Http.onreadystatechange = (e) => {
+            console.log(Http.responseText)
+        }
+        console.log('ended');
+    }
+</script>
+
+</html>
