@@ -35,15 +35,16 @@
     }
 
     function getEpisodes(title, index) {
-        const Http = new XMLHttpRequest();
+        const HttpW = new XMLHttpRequest();
         const url = `http://4c3711.xyz:3000/fluid/api/v1/search/${title}/${index}`;
-        Http.open("GET", url);
-        Http.send();
+        HttpW.open("GET", url);
+        HttpW.send();
+        console.log('ret');
 
-        Http.onreadystatechange = (e) => {
+        HttpW.onreadystatechange = (e) => {
             let repoArray = new Array();
-            console.log(Http.responseText);
-            repoArray = JSON.parse(Http.responseText);
+            console.log(HttpW.responseText);
+            repoArray = JSON.parse(HttpW.responseText);
             for (let i = 0; i < repoArray.length; i++) {
                 var btn = document.createElement("BUTTON"); // Create a <button> element
                 btn.innerHTML = `EP ${i}`; // Insert text
