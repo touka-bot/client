@@ -8,11 +8,11 @@
 
 <body>
     <input type="text" class="search-input" id="center" placeholder="Search a Show">
-    <button id="center" class="search-button" onclick="searchTitle('noragami')">Search</button>
+    <button id="center" class="search-button" onclick="searchTitle()">Search</button>
 </body>
 
 <script>
-    function searchTitle(title) {
+    function searchTitle() {
         var show = document.getElementsByClassName('search-input')[0].value;
         if (show == "")
             return alert('Please enter a Show');
@@ -43,6 +43,13 @@
         Http.onreadystatechange = (e) => {
             let repoArray = new Array();
             console.log(Http.responseText);
+            repoArray = JSON.parse(Http.responseText);
+            for (let i = 0; i < repoArray.length; i++) {
+                var btn = document.createElement("BUTTON"); // Create a <button> element
+                btn.innerHTML = `EP ${i}`; // Insert text
+                btn.setAttribute("onclick", `window.location.href='${repoArray[i]}'`);
+                document.body.appendChild(btn); // Append <button> to <body>
+            }
         }
     }
 </script>
