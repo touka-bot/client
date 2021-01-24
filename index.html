@@ -26,8 +26,8 @@
             let repoArray = new Array();
             repoArray = JSON.parse(Http.responseText);
             console.log(`${repoArray.length} | ${Http.responseText}`);
+            var btn = document.createElement("BUTTON");
             for (let i = 0; i < repoArray.length; i++) {
-                var btn = document.createElement("BUTTON"); // Create a <button> element
                 btn.innerHTML = repoArray[i].replace("https://4anime.to/anime/", "").replace("-", " "); // Insert text
                 btn.setAttribute("onclick", `getEpisodes(${repoArray[i].replace("https://4anime.to/anime/", "")}, ${i})`);
                 document.body.appendChild(btn); // Append <button> to <body>
