@@ -8,56 +8,82 @@
 
 <body>
     <input type="text" class="search-input" id="center" placeholder="Search a Show">
-    <button id="center" class="search-button" onclick="searchTitle()">Search</button>
+    <button id="center" class="search-button">Search</button>
 </body>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script>
-    function searchTitle() {
-        var elementX = document.getElementsByClassName("animeSelection");
-        console.log(elementX.length);
-        for (let i = 0; i < elementX.length; i++) {
-            elementX.item(i).parentNode.removeChild(elementX.item(i));
-        }
-        var show = document.getElementsByClassName('search-input')[0].value;
-        if (show == "")
-            return alert('Please enter a Show');
+    $(document.getElementsByClassName("search-button")).click(function () {
+        const title = document.getElementsByClassName("search-input").item(0).value;
+        const url = 'http://4c3711.xyz:3000/fluid/api/v1/search/' + title.toLowerCase().replace(" ", "+");
 
-        const Http = new XMLHttpRequest();
-        const url = 'http://4c3711.xyz:3000/fluid/api/v1/search/' + show.toLowerCase().replace(" ", "+");
-        Http.open("GET", url);
-        Http.send();
-
-        Http.onreadystatechange = (e) => {
-            
-            const repoArray = JSON.parse(Http.responseText);
-            console.log(`${repoArray.length} | ${Http.responseText}`);
-            
-            for (let i = 0; i < repoArray.length; i++) {
-                var btn = document.createElement("BUTTON");
-                btn.innerHTML = repoArray[i].replace("https://4anime.to/anime/", "").replace("-", " "); // Insert text
-                btn.setAttribute("onclick", `getEpisodes("${show.toLowerCase().replace(" ", "+")}", ${i})`);
-                btn.setAttribute("class", "animeSelection");
-                document.body.appendChild(btn); // Append <button> to <body>
+        $.get(url, function (data, status) {
+            console.log(data);
+            const repoArray = data;
+            if (data == "No Video found") {
+                alert(`Couldn't locate source.`)
+                window.location.reload(true);
             }
-        }
+            var str = '<ul class="animeSelection">';
+            for (let i = 0; i < repoArray.length; i++) {
+
+                str += `<li onclick="getEpisodes('${title}', ${i})"><a>${repoArray[i].replace("https://4anime.to/anime/", "").replace("-", " ")}</a></li>`;
+            }
+            str += '</ul>';
+            $('body').append(str);
+        });
+
+        removeAllChildNodes(document.body);
+    });
+
+
+
+    function getEpisodes(title, i) {
+
+        const url = 'http://4c3711.xyz:3000/fluid/api/v1/search/' + title.toLowerCase().replace("-", "+") + '/' + i;
+
+        $.get(url, function (data, status) {
+
+            console.log(data);
+            const repoArray = data;
+
+            if (data == "No Video found") {
+                alert(`Couldn't locate source.`)
+                window.location.reload(true);
+            }
+
+            var str = '<ul class="episodeSelection">';
+            for (let j = 0; j < repoArray.length; j++) {
+
+                str += `<li onclick="getVideoURL('${title}' , ${i}, ${j})"><a>EP ${j + 1}</a></li>`;
+            }
+            str += '</ul>';
+            $('body').append(str);
+        });
+        removeAllChildNodes(document.body);
+
     }
 
-    function getEpisodes(title, index) {
-        const HttpW = new XMLHttpRequest();
-        const url = `http://4c3711.xyz:3000/fluid/api/v1/search/${title}/${index}`;
-        HttpW.open("GET", url);
-        HttpW.send();
+    function getVideoURL(title, i, j) {
 
-        HttpW.onreadystatechange = (e) => {
-            let repoArray = new Array();
-            console.log(HttpW.responseText);
-            repoArray = JSON.parse(HttpW.responseText);
-            for (let i = 0; i < repoArray.length; i++) {
-                var btn = document.createElement("BUTTON"); // Create a <button> element
-                btn.innerHTML = `EP ${i}`; // Insert text
-                btn.setAttribute("onclick", `window.location.href='${repoArray[i]}'`);
-                document.body.appendChild(btn); // Append <button> to <body>
+        const url = 'http://4c3711.xyz:3000/fluid/api/v1/search/' + title.toLowerCase().replace("-", "+") + '/' + i + '/episodes/' + j;
+
+        $.get(url, function (data, status) {
+
+            if (data == "No Video found" || data == '') {
+                alert(`Couldn't locate source.`)
+                window.location.reload(true);
             }
+            var src = document.createElement("VIDEO");
+            src.setAttribute("src", data);
+            src.setAttribute("controls", "")
+            document.body.appendChild(src);
+        });
+        removeAllChildNodes(document.body);
+    }
+
+    function removeAllChildNodes(parent) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
         }
     }
 </script>

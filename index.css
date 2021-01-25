@@ -1,5 +1,6 @@
 html {
     height: 100%;
+    width: 100%;
     font-size: 30px;
     box-sizing: border-box;
 }
@@ -55,6 +56,48 @@ input[type="text"]
     height: 84px;
 }
 .search-button:hover {
+	background-color: #7289DA;
+}
+
+.episodeSelection {
+	background-color:#2C2F33;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Trebuchet MS;
+	font-size:26px;
+	padding:17px 31px;
+    text-decoration:none;
+    width: 10%;
+    list-style: none;
+}
+
+.episodeSelection li {
+	transition: all 100ms ease-in;
+}
+
+.episodeSelection li:hover {
+	background-color: #7289DA;
+}
+
+.animeSelection {
+	background-color:#2C2F33;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Trebuchet MS;
+	font-size:26px;
+	padding:17px 31px;
+    text-decoration:none;
+    width: 50%;
+    list-style: none;
+}
+
+.animeSelection li {
+	transition: all 100ms ease-in;
+}
+
+.animeSelection li:hover {
 	background-color: #7289DA;
 }
 
