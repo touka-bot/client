@@ -13,6 +13,11 @@
 
 <script>
     function searchTitle() {
+        var elementX = document.getElementsByClassName("animeSelection");
+        console.log(elementX.length);
+        for (let i = 0; i < elementX.length; i++) {
+            elementX.item(i).parentNode.removeChild(elementX.item(i));
+        }
         var show = document.getElementsByClassName('search-input')[0].value;
         if (show == "")
             return alert('Please enter a Show');
@@ -23,13 +28,15 @@
         Http.send();
 
         Http.onreadystatechange = (e) => {
-            let repoArray = new Array();
-            repoArray = JSON.parse(Http.responseText);
+            
+            const repoArray = JSON.parse(Http.responseText);
             console.log(`${repoArray.length} | ${Http.responseText}`);
-            var btn = document.createElement("BUTTON");
+            
             for (let i = 0; i < repoArray.length; i++) {
+                var btn = document.createElement("BUTTON");
                 btn.innerHTML = repoArray[i].replace("https://4anime.to/anime/", "").replace("-", " "); // Insert text
-                btn.setAttribute("onclick", `getEpisodes(${repoArray[i].replace("https://4anime.to/anime/", "")}, ${i})`);
+                btn.setAttribute("onclick", `getEpisodes("${show.toLowerCase().replace(" ", "+")}", ${i})`);
+                btn.setAttribute("class", "animeSelection");
                 document.body.appendChild(btn); // Append <button> to <body>
             }
         }
@@ -40,7 +47,6 @@
         const url = `http://4c3711.xyz:3000/fluid/api/v1/search/${title}/${index}`;
         HttpW.open("GET", url);
         HttpW.send();
-        console.log('ret');
 
         HttpW.onreadystatechange = (e) => {
             let repoArray = new Array();
