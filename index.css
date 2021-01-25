@@ -118,7 +118,6 @@ ul {
   
   /* Element counter */
   li::before {
-    content: counters(index, ".", decimal-leading-zero);
     font-size: 1.5rem;
     text-align: right;
     font-weight: bold;
@@ -130,6 +129,10 @@ ul {
     background-attachment: fixed;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+  
+  a {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif  
   }
   
   
